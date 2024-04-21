@@ -1,34 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const app = express();
-
-app.use((req, res, next) => {
-  try {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { _id: decoded.userId }; 
-    next();
-  } catch (error) {
-    res.status(401).send({ error: 'Please authenticate.' });
-  }
-});
 
 const authRoutes = require('./routes/auth');
-const driveRoutes = require('./routes/drive')
+const driveRoutes = require('./routes/drive');
+const authMiddleware = require('./middleware/authMiddleware'); // Import the middleware
 
+const app = express();
 
-
+// Middleware for parsing JSON bodies
 app.use(express.json()); 
 
+// Connect to MongoDB without the deprecated options
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
-app.use(authRoutes);
-app.use(driveRoutes);
+// Routes
+app.use('/auth', authRoutes); // Authentication routes such as signin, signup, don't require middleware
 
+// Apply the auth middleware only to drive routes
+app.use('/drive', authMiddleware, driveRoutes); // Drive routes require a user to be authenticated
+
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
