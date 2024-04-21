@@ -1,64 +1,64 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function SignIn({ onSignIn }) { 
-const navigate = useNavigate();
+function SignIn({ onSignIn }) {
+  const navigate = useNavigate();
   const [signInInfo, setSignInInfo] = useState({
     username: '',
     password: ''
   });
-  
-  const [message, setMessage] = useState(''); 
+  const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState('');
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setSignInInfo(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+  function handleRememberMeChange(event) {
+    setRememberMe(event.target.checked);
+  }
+
+  function handleForgotPassword(event) {
+    event.preventDefault();
+    navigate('/forgot-password');
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     setMessage('Signing in...');
-
     fetch('/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(signInInfo)
-      })
-      .then(response => {
-        if (!response.ok) {
-          return response.text().then(text => { throw new Error(text || 'Signin failed') });
-        }
-        return response.json();
-      })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(signInInfo)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Signin failed: ${response.statusText}`);
+      }
+      return response.json();
+    })
     .then(data => {
       if (data.token) {
-        onSignIn(data.token); 
-        navigate('/upload'); 
+        onSignIn(data.token, rememberMe); 
+        navigate('/upload');
       } else {
-        setMessage('Signin failed. Please try again.'); 
+        setMessage('Signin failed. Please try again.');
       }
     })
     .catch(error => {
       console.error('Error:', error);
-      setMessage(error.message); 
+      setMessage(error.toString());
     });
   }
 
   return (
     <div>
       <h2>Sign In</h2>
-      {message && <div className="message">{message}</div>} {}
+      {message && <div className="message">{message}</div>}
       <form onSubmit={handleSubmit}>
         <input
           name="username"
           type="text"
           value={signInInfo.username}
-          onChange={handleChange}
+          onChange={(e) => setSignInInfo({ ...signInInfo, username: e.target.value })}
           placeholder="Username or Email"
           required
         />
@@ -66,10 +66,18 @@ const navigate = useNavigate();
           name="password"
           type="password"
           value={signInInfo.password}
-          onChange={handleChange}
+          onChange={(e) => setSignInInfo({ ...signInInfo, password: e.target.value })}
           placeholder="Password"
           required
         />
+        <label>
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={handleRememberMeChange}
+          /> Remember me
+        </label>
+        <button type="button" onClick={handleForgotPassword}>Forgot Password?</button>
         <button type="submit">Sign In</button>
       </form>
     </div>

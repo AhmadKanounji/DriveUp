@@ -53,9 +53,14 @@ router.post('/forgot-password', async (req, res) => {
     }
 
     const resetToken = user.createPasswordResetToken();
+    // Hash the reset token before saving to the database
+    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+    user.passwordResetToken = resetTokenHash;
+    user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Set the expiration to 10 minutes from now
     await user.save({ validateBeforeSave: false });
 
-    const resetURL = `http://${req.headers.host}/reset-password/${resetToken}`;
+    // Send the plain token to the user's email
+    const resetURL = `http://${req.headers.host}/auth/reset-password/${resetToken}`;
     const message = `Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
     await transport.sendMail({
@@ -76,10 +81,7 @@ router.post('/forgot-password', async (req, res) => {
 
 
 router.patch('/reset-password/:token', async (req, res) => {
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex');
+  const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
