@@ -48,7 +48,7 @@ router.delete('/files/:id', async (req, res) => {
 // PATCH endpoint to update file metadata
 router.patch('/files/:id', upload.single('file'), async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ['name', 'location', 'type']; // Add other fields you want to be updatable
+  const allowedUpdates = ['name', 'location', 'type']; 
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
   if (!isValidOperation) {
@@ -62,15 +62,14 @@ router.patch('/files/:id', upload.single('file'), async (req, res) => {
       return res.status(404).json({ error: 'File not found' });
     }
 
-    // Assuming you want to restrict updates to the owner of the file
     if (file.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Permission denied' });
     }
 
     updates.forEach((update) => file[update] = req.body[update]);
     if (req.file) {
-      file.location = req.file.path; // Update file location if a new file is uploaded
-      file.fileSize = req.file.size; // Update file size if a new file is uploaded
+      file.location = req.file.path; 
+      file.fileSize = req.file.size;
     }
     
     await file.save();

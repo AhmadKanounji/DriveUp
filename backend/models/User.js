@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true }, // Adding email field
+  email: { type: String, required: true, unique: true }, 
   password: { type: String, required: true },
   passwordResetToken: String,
   passwordResetExpires: Date
@@ -27,7 +27,7 @@ userSchema.methods.createPasswordResetToken = function() {
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; 
 
   return resetToken;
 };

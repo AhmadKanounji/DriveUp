@@ -20,7 +20,7 @@ const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    setMessage('Signing in...'); // Give immediate feedback on submission
+    setMessage('Signing in...');
 
     fetch('/auth/signin', {
         method: 'POST',
@@ -31,29 +31,28 @@ const navigate = useNavigate();
       })
       .then(response => {
         if (!response.ok) {
-          // Throw an error for any non-200 response
           return response.text().then(text => { throw new Error(text || 'Signin failed') });
         }
         return response.json();
       })
     .then(data => {
       if (data.token) {
-        onSignIn(data.token); // Save the token and update auth state
-        navigate('/upload'); // Redirect to upload page
+        onSignIn(data.token); 
+        navigate('/upload'); 
       } else {
-        setMessage('Signin failed. Please try again.'); // Set an error message
+        setMessage('Signin failed. Please try again.'); 
       }
     })
     .catch(error => {
       console.error('Error:', error);
-      setMessage(error.message); // Set an error message
+      setMessage(error.message); 
     });
   }
 
   return (
     <div>
       <h2>Sign In</h2>
-      {message && <div className="message">{message}</div>} {/* Show messages here */}
+      {message && <div className="message">{message}</div>} {}
       <form onSubmit={handleSubmit}>
         <input
           name="username"
