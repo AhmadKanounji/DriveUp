@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-
-// Setup Nodemailer transport
 const transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
