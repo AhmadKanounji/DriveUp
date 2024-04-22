@@ -37,6 +37,8 @@ function SignIn({ onSignIn }) {
     })
     .then(data => {
       if (data.token) {
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem('token', data.token);
         onSignIn(data.token, rememberMe); 
         navigate('/upload');
       } else {

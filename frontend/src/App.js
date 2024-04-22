@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import SignUp from './signUp';
 import SignIn from './signIn';
 import FileUpload from './FileUpload';
@@ -8,17 +8,26 @@ import ForgotPassword from './forgotPassword';
 import ResetPassword from './resetPassword';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem('token') ? true : false
+  );
 
-  React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
+  useEffect(() => {
+    // Sync the auth state on app load/reload
+    const checkAuthState = () => {
+      const token = localStorage.getItem('token');
+      setIsAuthenticated(!!token);
+    };
+    checkAuthState();
   }, []);
 
-  const handleSignIn = (token) => {
-    localStorage.setItem('token', token);
+  const handleSignIn = (token, rememberMe) => {
+    if (rememberMe) {
+      localStorage.setItem('token', token);
+    } else {
+      sessionStorage.setItem('token', token);
+      localStorage.removeItem('token'); 
+    }
     setIsAuthenticated(true);
   };
 
@@ -30,22 +39,42 @@ function App() {
   return (
     <Router>
       <div>
-        {isAuthenticated && (
-          <button onClick={handleLogout}>Logout</button>
-        )}
+        <AuthButtons isAuthenticated={isAuthenticated} onLogout={handleLogout} />
         <Routes>
-          {/* Set Landing as the default route */}
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/upload" element={isAuthenticated ? <FileUpload /> : <Navigate to="/signin" />} />
-          {/* Redirect any other route to Landing */}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route
+            path="/upload"
+            element={isAuthenticated ? <FileUpload onLogout={handleLogout} /> : <Navigate to="/signin" replace />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
+  );
+}
+
+function AuthButtons({ isAuthenticated, onLogout }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to upload if the user is authenticated on component mount
+    if (isAuthenticated) {
+      navigate('/upload');
+    }
+  }, [isAuthenticated, navigate]);
+
+  return (
+    <>
+      {isAuthenticated ? (
+        <button onClick={() => { onLogout(); navigate('/signin'); }}>Logout</button>
+      ) : (
+        <button onClick={() => navigate('/signin')}>Sign In</button>
+      )}
+    </>
   );
 }
 

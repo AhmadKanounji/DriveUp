@@ -28,22 +28,26 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const { username, password, rememberMe } = req.body;
+    const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).send('Unable to login');
     }
 
-    const isMatch = await user.comparePassword(req.body.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).send('Unable to login');
     }
+    
+    const expiresIn = rememberMe ? '7d' : '2h';
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn });
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     res.send({ user, token });
   } catch (error) {
     res.status(400).send(error);
   }
 });
+
 
 router.post('/forgot-password', async (req, res) => {
   try {
