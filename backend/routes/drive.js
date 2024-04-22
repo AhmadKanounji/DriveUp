@@ -1,8 +1,10 @@
 const express = require('express');
 const multer = require('multer');
 const File = require('../models/file'); 
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
+router.use(authMiddleware);
 
 const upload = multer({ dest: 'uploads/' });
 

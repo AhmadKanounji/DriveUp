@@ -18,17 +18,23 @@ function FileUpload() {
     const formData = new FormData();
     formData.append('file', file);
   
+    // Attempt to get the token from sessionStorage first, then localStorage
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+  
+    if (!token) {
+      alert('No authentication token found. Please sign in.');
+      return;
+    }
+  
     fetch('/drive/files', {
       method: 'POST',
-      // Remove 'Content-Type' header, let the browser set it with the proper boundary
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${token}`
       },
       body: formData
     })
     .then(response => {
       if (!response.ok) {
-        // If the response is not ok, throw an error and handle it in the catch block
         throw new Error(`Error: ${response.statusText}`);
       }
       return response.json();
