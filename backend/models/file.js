@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const fileSchema = new mongoose.Schema({
   name: { type: String, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  storedFilename: { type: String, required: true },
   uploadDate: { type: Date, default: Date.now },
+  lastAccessed: { type: Date, default: Date.now },
   location: { type: String, required: true },
   type: { type: String, required: true, enum: ['file', 'folder'] },
   fileSize: { type: Number }

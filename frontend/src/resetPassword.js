@@ -9,7 +9,6 @@ function ResetPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // No need to check for password confirmation now
     fetch(`/auth/reset-password/${token}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

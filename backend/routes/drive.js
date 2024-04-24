@@ -13,10 +13,12 @@ router.post('/files', upload.single('file'), async (req, res) => {
   try {
     const { name, type, location } = req.body;
     const newFile = new File({
-      name: name || req.file.originalname,
+      name: req.body.name || req.file.originalname,
+      storedFilename: req.file.filename, 
       owner: req.user._id, 
       location: location || 'uploads/', 
       type: type || 'file', 
+      lastAccessed: new Date(),
       fileSize: req.file.size
     });
 
@@ -32,6 +34,18 @@ router.get('/files', async (req, res) => {
   try {
     const files = await File.find({ owner: req.user._id }).sort({ uploadDate: -1 });
     res.json(files);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET endpoint to list the last 20 accessed documents or folders
+router.get('/recent-files', async (req, res) => {
+  try {
+    const recentFiles = await File.find({ owner: req.user._id })
+      .sort({ lastAccessed: -1 })
+      .limit(20);
+    res.json(recentFiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,6 +94,34 @@ router.patch('/files/:id', upload.single('file'), async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+router.get('/files/:id/download', async (req, res) => {
+  try {
+    const file = await File.findById(req.params.id);
+
+    if (!file) {
+      return res.status(404).send('File not found');
+    }
+    
+    file.lastAccessed = new Date();
+    await file.save();
+
+    // Use the actual stored filename in the file system
+    const filePath = file.location + file.storedFilename; // Modify this line with correct field
+
+    res.download(filePath, file.name, (err) => {
+      if (err) {
+        console.error("Error downloading file:", err);
+        return res.status(500).send('Error downloading file');
+      }
+    });
+
+  } catch (error) {
+    console.error("Error in file download:", error);
+    res.status(500).send(error.message);
+  }
+});
+
 
 
 module.exports = router;

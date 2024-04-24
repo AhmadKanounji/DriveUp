@@ -6,6 +6,7 @@ import FileUpload from './FileUpload';
 import Landing from './Landing';
 import ForgotPassword from './forgotPassword';
 import ResetPassword from './resetPassword';
+import RecentFiles from './recentFiles';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -50,7 +51,9 @@ function App() {
             path="/upload"
             element={isAuthenticated ? <FileUpload onLogout={handleLogout} /> : <Navigate to="/signin" replace />}
           />
+          <Route path="/drive/recent-files" element={<RecentFiles />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+
         </Routes>
       </div>
     </Router>
@@ -60,12 +63,11 @@ function App() {
 function AuthButtons({ isAuthenticated, onLogout }) {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Redirect to upload if the user is authenticated on component mount
-    if (isAuthenticated) {
-      navigate('/upload');
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate('/upload');
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   return (
     <>

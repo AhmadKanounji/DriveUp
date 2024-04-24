@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function FileUpload() {
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -18,7 +20,6 @@ function FileUpload() {
     const formData = new FormData();
     formData.append('file', file);
   
-    // Attempt to get the token from sessionStorage first, then localStorage
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
   
     if (!token) {
@@ -57,6 +58,7 @@ function FileUpload() {
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Upload</button>
       </form>
+      <button onClick={() => navigate('/drive/recent-files')}>View Recent Files</button> {/* New Button */}
     </div>
   );
 }
