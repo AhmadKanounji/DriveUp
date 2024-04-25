@@ -40,7 +40,7 @@ function SignIn({ onSignIn }) {
         const storage = rememberMe ? localStorage : sessionStorage;
         storage.setItem('token', data.token);
         onSignIn(data.token, rememberMe); 
-        navigate('/upload');
+        navigate('/drive/recent-files');
       } else {
         setMessage('Signin failed. Please try again.');
       }

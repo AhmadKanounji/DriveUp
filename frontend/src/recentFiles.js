@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
 import { useNavigate } from 'react-router-dom';
+import UploadPopup from './UploadPopup';
 
 function RecentFiles() {
   const navigate = useNavigate();
   const [recentFiles, setRecentFiles] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false)
+  const [showUploadPopup, setShowUploadPopup] = useState(false);;
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -44,6 +46,9 @@ function RecentFiles() {
       setError(error.message);
     });
   };
+  const refreshFiles = () => {
+    fetchRecentFiles(); 
+  };
 
   const fetchUserProfile = () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
@@ -61,6 +66,7 @@ function RecentFiles() {
       setError(error.message);
     });
   };
+  
 
   const accessFile = (fileId) => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
@@ -102,6 +108,13 @@ function RecentFiles() {
         />
         </div>
       )}
+      <div>
+      <button onClick={() => setShowUploadPopup(true)}>New</button>
+      {showUploadPopup && (
+      <UploadPopup onClose={() => setShowUploadPopup(false)} onUploadSuccess={refreshFiles} />
+    )}
+      {}
+    </div>
       <form onSubmit={handleSearch}>
         <input
           type="text"

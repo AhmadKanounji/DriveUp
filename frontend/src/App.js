@@ -15,7 +15,6 @@ function App() {
   );
 
   useEffect(() => {
-    // Sync the auth state on app load/reload
     const checkAuthState = () => {
       const token = localStorage.getItem('token');
       setIsAuthenticated(!!token);
