@@ -9,6 +9,8 @@ const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 
 app.use(express.json()); 
+app.use(express.static('public'));
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
@@ -16,7 +18,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 app.use('/auth', authRoutes); 
-app.use('/drive', authMiddleware, driveRoutes); 
+app.use('/drive', authMiddleware, driveRoutes);
+app.use('/public', express.static('public'));
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

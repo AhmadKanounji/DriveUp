@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const upload = require('../middleware/imageUpload');
+const authMiddleware= require('../middleware/authMiddleware');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
@@ -11,6 +13,42 @@ const transport = nodemailer.createTransport({
   auth: {
     user: process.env.MAILTRAP_USERNAME,
     pass: process.env.MAILTRAP_PASSWORD
+  }
+});
+
+router.post('/upload', authMiddleware, upload, async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ msg: 'No file selected!' });
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { profileImage: req.file.path },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({ msg: 'User not found.' });
+    }
+
+    res.status(200).send({ msg: 'File uploaded!', file: `uploads/${req.file.filename}` });
+  } catch (err) {
+    res.status(500).send({ msg: 'Failed to update user profile.', error: err.message });
+  }
+});
+
+router.get('/user_profile', authMiddleware, async (req, res) => {
+  try {
+    
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    
+    res.send({ username: user.username, email: user.email, profileImage: user.profileImage });
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
