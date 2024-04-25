@@ -8,6 +8,23 @@ router.use(authMiddleware);
 
 const upload = multer({ dest: 'uploads/' });
 
+// Endpoint to search files
+router.get('/search', authMiddleware, async (req, res) => {
+  try {
+    const searchQuery = req.query.query || '';
+    const files = await File.find({
+      name: { $regex: new RegExp(searchQuery, 'i') }
+    });
+    console.log(files); // Log the result to see what's being returned
+    res.json({ files });
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).send({ message: 'Error fetching search results', error: error.message });
+  }
+});
+
+
+
 // POST endpoint for file upload
 router.post('/files', upload.single('file'), async (req, res) => {
   try {

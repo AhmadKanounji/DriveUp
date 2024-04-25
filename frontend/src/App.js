@@ -7,6 +7,7 @@ import Landing from './Landing';
 import ForgotPassword from './forgotPassword';
 import ResetPassword from './resetPassword';
 import RecentFiles from './recentFiles';
+import SearchResults from './SearchResults';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -52,6 +53,7 @@ function App() {
             element={isAuthenticated ? <FileUpload onLogout={handleLogout} /> : <Navigate to="/signin" replace />}
           />
           <Route path="/drive/recent-files" element={<RecentFiles />} />
+          <Route path="/drive/search" element={<SearchResults />} />
           <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>

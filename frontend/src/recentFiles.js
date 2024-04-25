@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
+import { useNavigate } from 'react-router-dom';
 
 function RecentFiles() {
+  const navigate = useNavigate();
   const [recentFiles, setRecentFiles] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState('');
 
@@ -13,6 +16,11 @@ function RecentFiles() {
   }, []);
   const togglePopup = () => {
     setShowPopup(!showPopup);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    navigate(`/drive/search?query=${encodeURIComponent(searchTerm)}`);
   };
 
   const fetchRecentFiles = () => {
@@ -75,7 +83,8 @@ function RecentFiles() {
 
   return (
     <div className="page-container">
-      <h1>Recent Files</h1>
+      <h1>Welcome to DriveUp</h1>
+      
       {error && <p>Error: {error}</p>}
       {userProfile && (
         <div className='profile-container' onClick={togglePopup}>
@@ -93,6 +102,15 @@ function RecentFiles() {
         />
         </div>
       )}
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search files"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
       {showPopup && <Popup userProfile={userProfile} onClose={togglePopup} />}
       <ul>
         {recentFiles.map(file => (
@@ -102,6 +120,7 @@ function RecentFiles() {
           </li>
         ))}
       </ul>
+      
     </div>
   );
 }
