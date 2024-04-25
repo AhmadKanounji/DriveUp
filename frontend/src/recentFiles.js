@@ -16,7 +16,6 @@ function RecentFiles() {
   };
 
   const fetchRecentFiles = () => {
-    // Replace with your actual authentication token retrieval logic
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
     fetch('/drive/recent-files', {
@@ -41,14 +40,14 @@ function RecentFiles() {
   const fetchUserProfile = () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
-    fetch('/auth/user_profile', { // Make sure this endpoint is correct and accessible
+    fetch('/auth/user_profile', { 
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
     .then(response => response.json())
     .then(data => {
-      setUserProfile(data); // Store the user profile data
+      setUserProfile(data); 
     })
     .catch(error => {
       setError(error.message);
@@ -56,7 +55,6 @@ function RecentFiles() {
   };
 
   const accessFile = (fileId) => {
-    // Replace with your actual file access endpoint
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
     fetch(`/drive/files/${fileId}/download`, {
@@ -68,8 +66,6 @@ function RecentFiles() {
       if (!response.ok) {
         throw new Error('Failed to access file');
       }
-      // Handle the file download here
-      // For testing purposes, we just refetch the recent files
       fetchRecentFiles();
     })
     .catch(error => {
@@ -90,7 +86,7 @@ function RecentFiles() {
             height: '50px',
             borderRadius: '50%',
             objectFit: 'cover',
-            position: 'absolute', // or 'fixed'
+            position: 'absolute', 
             top: '10px',
             right: '10px',
           }}
