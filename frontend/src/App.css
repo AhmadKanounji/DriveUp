@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+.signInButton{
+  padding: 10px 20px;
+  background-color: #007bff; /* Default background color */
+  color: white;
+  border: 4px solid #007bff; /* Border color matches the default background color */
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.signInButton:hover {
+  background-color: #52b1ec; /* Change background color on hover */
+  color: white; /* Change text color on hover */
+}
