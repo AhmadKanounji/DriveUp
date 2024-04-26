@@ -1,0 +1,40 @@
+.recent-files-container {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .file-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .file-item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+  }
+  
+  .owner-icon {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover;
+    margin-right: 10px; /* Space between the icon and the username */
+  }
+  
+  .file-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .file-name {
+    font-weight: bold;
+  }
+  
+  .file-date,
+  .file-owner,
+  .file-location {
+    font-size: 0.9em;
+    color: #666;
+  }

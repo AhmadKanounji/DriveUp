@@ -61,12 +61,15 @@ router.get('/recent-files', async (req, res) => {
   try {
     const recentFiles = await File.find({ owner: req.user._id })
       .sort({ lastAccessed: -1 })
-      .limit(20);
+      .limit(20)
+      .populate('owner', 'username profileImage'); // Add this line to populate the owner information
+
     res.json(recentFiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // DELETE endpoint to delete a file
 router.delete('/files/:id', async (req, res) => {

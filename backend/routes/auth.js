@@ -32,7 +32,7 @@ router.post('/upload', authMiddleware, upload, async (req, res) => {
       return res.status(404).send({ msg: 'User not found.' });
     }
 
-    res.status(200).send({ msg: 'File uploaded!', file: `uploads/${req.file.filename}` });
+    res.status(200).send({ msg: 'File uploaded!', file: `public/uploads/${req.file.filename}` });
   } catch (err) {
     res.status(500).send({ msg: 'Failed to update user profile.', error: err.message });
   }

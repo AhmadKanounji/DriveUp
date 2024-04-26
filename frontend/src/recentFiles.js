@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
 import { useNavigate } from 'react-router-dom';
 import UploadPopup from './UploadPopup';
+import './recentfiles.css';
 
 function RecentFiles() {
   const navigate = useNavigate();
@@ -66,26 +67,8 @@ function RecentFiles() {
       setError(error.message);
     });
   };
-  
 
-  const accessFile = (fileId) => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
-    fetch(`/drive/files/${fileId}/download`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to access file');
-      }
-      fetchRecentFiles();
-    })
-    .catch(error => {
-      setError(error.message);
-    });
-  };
 
   return (
     <div className="page-container">
@@ -125,14 +108,27 @@ function RecentFiles() {
         <button type="submit">Search</button>
       </form>
       {showPopup && <Popup userProfile={userProfile} onClose={togglePopup} />}
-      <ul>
-        {recentFiles.map(file => (
-          <li key={file._id}>
-            {file.name} - Last Accessed: {file.lastAccessed}
-            <button onClick={() => accessFile(file._id)}>Access</button>
-          </li>
-        ))}
-      </ul>
+      <div className="file-list">
+  {recentFiles.map(file => (
+    <div className="file-item" key={file._id}>
+      <div className="file-name">{file.name}</div>
+      <div className="file-date">Modified on {new Date(file.uploadDate).toLocaleDateString()}</div>
+
+      <div className="file-owner">
+        {file.owner.profileImage && (
+          <img
+            src={`http://localhost:3000/${file.owner.profileImage}`} 
+            alt={`${file.owner.username}'s icon`} 
+            className="owner-icon"
+          />
+        )}
+        {file.owner.username} 
+      </div>
+
+      <div className="file-location">{file.location}</div>
+    </div>
+  ))}
+</div>
       
     </div>
   );
