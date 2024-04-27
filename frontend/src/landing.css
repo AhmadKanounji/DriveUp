@@ -44,6 +44,13 @@
         background-image: url('/DriveUp-Background2.jpeg');
 
       }
+      .footer-content {
+        flex-direction: column;
+      }
+    
+      .social-media-icons a {
+        margin: 5px 0;
+      }
     }
 
 @media (max-width: 769px) {
@@ -188,3 +195,63 @@
     line-height: 28px;
     justify-content: center; 
 }
+
+.footer {
+    background-color: #f8f8f8; /* Footer background color */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%; /* Adjust as per your layout */
+  }
+  
+  .social-media-icons a {
+    margin: 0 10px;
+  }
+  
+  .social-media-icons img {
+    height: 40px; /* Adjust the size of the icons */
+  }
+  
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+    }
+  
+    .social-media-icons a {
+      margin: 5px 0;
+    }
+  }
+  .footer {
+    background-color: #f8f8f8; /* Footer background color */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%; /* Adjust as per your layout */
+  }
+  
+  .social-media-icons a {
+    margin: 0 10px;
+  }
+  
+  .social-media-icons img {
+    width: 28px;  /* Sets a fixed width for all icons */
+    height: 28px; /* Sets a fixed height for all icons */
+    object-fit: contain; /* Ensures the image is resized to fit while maintaining aspect ratio without cropping */
+  }
+

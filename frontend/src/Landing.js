@@ -23,6 +23,17 @@ function Landing() {
       <Link to="/signUp" className='signUpButton2'>Sign Up For Free</Link>
       <p>Join us today for the ultimate online storage experience.</p>
 </div>
+<footer className="footer">
+        <div className="footer-content">
+          <p>DriveUp</p>
+          <div className="social-media-icons">
+            <a href="https://instagram.com"><img src="/instagram.png" alt="Instagram"/></a>
+            <a href="https://twitter.com"><img src="/twitter.png" alt="Twitter"/></a>
+            <a href="https://youtube.com"><img src="/youtube.png" alt="YouTube"/></a>
+            <a href="https://linkedin.com"><img src="/linkedin.png" alt="LinkedIn"/></a>
+          </div>
+        </div>
+      </footer>
 
 
     </div>
