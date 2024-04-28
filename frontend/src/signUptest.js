@@ -106,7 +106,7 @@ function SignUp() {
             <div id="titles">
                 <h1>Sign up</h1>
                 <h2>to continue to Drive</h2>
-                <img src="src/google_drive_logo.png" id="google_drive_logo.png">
+                <img src="google_drive_logo.png">
             </div>
             <form onSubmit={handleSubmit}>
 
