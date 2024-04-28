@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Ensure this is correctly written and saved
 import Popup from './components/Popup';
-import { useNavigate } from 'react-router-dom';
 import UploadPopup from './UploadPopup';
 import './recentfiles.css';
+
 
 function RecentFiles() {
   const navigate = useNavigate();
@@ -68,14 +69,41 @@ function RecentFiles() {
     });
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    setUserProfile(null);
+    navigate('/signin');
+  };
+
 
 
   return (
     <div className="page-container">
+<header className="header">
+      <Link to="recentFiles" className="logo">
+        <img src="/DriveUp-logo.jpeg" alt="DriveUp Logo" />
+      </Link>
+      {userProfile && (
+        <div className='profile-header'>
+          <img
+            src={`http://localhost:3000/${userProfile.profileImage}`} 
+            alt="Profile"
+            className="profile-icon"
+          />
+          <button onClick={handleLogout} className="logout-button">Log Out</button>
+        </div>
+      )}
+      {!userProfile && (
+        <Link to="/signin" className="signin-link">Sign In</Link>
+      )}
+    </header>
+<div className="main-content">
+
       <h1>Welcome to DriveUp</h1>
       
       {error && <p>Error: {error}</p>}
-      {userProfile && (
+      {/* {userProfile && (
         <div className='profile-container' onClick={togglePopup}>
         <img
           src={`http://localhost:3000/${userProfile.profileImage}`} alt="Profile"
@@ -90,22 +118,22 @@ function RecentFiles() {
           }}
         />
         </div>
-      )}
+      )} */}
       <div>
-      <button onClick={() => setShowUploadPopup(true)}>New</button>
+      <button onClick={() => setShowUploadPopup(true)}className='new-file-button'>New File</button>
       {showUploadPopup && (
       <UploadPopup onClose={() => setShowUploadPopup(false)} onUploadSuccess={refreshFiles} />
     )}
       {}
     </div>
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSearch} className='search-bar'>
         <input
           type="text"
           placeholder="Search files"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className='search-button'>Search</button>
       </form>
       {showPopup && <Popup userProfile={userProfile} onClose={togglePopup} />}
       <div className="file-list">
@@ -129,9 +157,27 @@ function RecentFiles() {
     </div>
   ))}
 </div>
+</div>
+
       
-    </div>
+<footer className="footer">
+<div className="footer-content">
+  <p>DriveUp</p>
+  <div className="social-media-icons">
+    <a href="https://instagram.com"><img src="/instagram.png" alt="Instagram"/></a>
+    <a href="https://twitter.com"><img src="/twitter.png" alt="Twitter"/></a>
+    <a href="https://youtube.com"><img src="/youtube.png" alt="YouTube"/></a>
+    <a href="https://linkedin.com"><img src="/linkedin.png" alt="LinkedIn"/></a>
+  </div>
+</div>
+</footer>
+
+
+</div>
   );
+
+
+
 }
 
 export default RecentFiles;

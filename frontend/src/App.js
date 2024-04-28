@@ -41,7 +41,7 @@ function App() {
   return (
     <Router>
       <div>
-        <AuthButtons isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        {/* <AuthButtons isAuthenticated={isAuthenticated} onLogout={handleLogout} /> */}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
