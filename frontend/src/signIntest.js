@@ -133,11 +133,12 @@ function SignIn({ onSignIn }) {
             cursor: pointer;
           }
           #forgotPassword_sentence {
+            padding
             position: absolute;
             top: 390px;
             left: 615px;
           }
-        `}
+          `}
       </style>
       <div id="content">
         <div id="titles">
