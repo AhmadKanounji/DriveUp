@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import SignUp from './signUp';
-import SignIn from './signIn';
+import SignUp from './signUptest';
+import SignIn from './signIntest';
 import FileUpload from './FileUpload';
 import Landing from './Landing';
 import ForgotPassword from './forgotPassword';
