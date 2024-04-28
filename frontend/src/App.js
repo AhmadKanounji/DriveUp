@@ -7,7 +7,7 @@ import Landing from './Landing';
 import ForgotPassword from './forgotPassword';
 import ResetPassword from './resetPassword';
 import RecentFiles from './recentFiles';
-import './App.css'; // Update the path if your CSS file is located elsewhere
+import './App.css'; 
 import SearchResults from './SearchResults';
 
 function App() {

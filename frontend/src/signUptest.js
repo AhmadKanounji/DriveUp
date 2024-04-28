@@ -29,9 +29,9 @@ function SignUp() {
     .then(data => {
       if (data.token) {
         localStorage.setItem('token', data.token);
-        // Redirect or do something on successful sign up
+        
       } else {
-        // Handle the situation where there's no token returned
+        
       }
     })
     .catch(error => {
@@ -41,8 +41,7 @@ function SignUp() {
 
   return (
     <div>
-      {/* Inline styles like this can become hard to manage for larger projects.
-      It's often better to move them to a CSS file. */}
+      {}
         <style>
             {`
               body {

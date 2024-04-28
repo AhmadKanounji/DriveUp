@@ -24,6 +24,49 @@ router.get('/search', authMiddleware, async (req, res) => {
 });
 
 
+router.post('/files/:fileId/share', authMiddleware, async (req, res) => {
+  const { email } = req.body; // Email of the user to share with
+  const { fileId } = req.params;
+
+  try {
+    const file = await File.findById(fileId);
+    const userToShareWith = await User.findOne({ email: email });
+
+    if (!file) {
+      return res.status(404).send({ message: 'File not found' });
+    }
+    if (!userToShareWith) {
+      return res.status(404).send({ message: 'User to share with not found' });
+    }
+    if (file.owner.equals(userToShareWith._id)) {
+      return res.status(400).send({ message: 'Cannot share file with the owner' });
+    }
+    if (file.sharedWith.includes(userToShareWith._id)) {
+      return res.status(400).send({ message: 'File already shared with this user' });
+    }
+
+    // Share the file with the user
+    file.sharedWith.push(userToShareWith._id);
+    file.sharedBy = req.user._id; // set the user who shared the file
+    await file.save();
+
+    // Optionally, update the lastAccessed time to move the file to the top of the recent list
+    file.lastAccessed = Date.now();
+    await file.save();
+
+    // Send back the updated file info
+    res.status(200).send({ 
+      message: 'File shared successfully',
+      file: {
+        ...file.toObject(),
+        sharedWith: file.sharedWith.map((id) => id.toString()), // Convert ObjectIds to strings
+        sharedBy: file.sharedBy.toString() // Convert ObjectId to string
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to share the file', error: error.message });
+  }
+});
 
 // POST endpoint for file upload
 router.post('/files', upload.single('file'), async (req, res) => {
@@ -59,10 +102,16 @@ router.get('/files', async (req, res) => {
 // GET endpoint to list the last 20 accessed documents or folders
 router.get('/recent-files', async (req, res) => {
   try {
-    const recentFiles = await File.find({ owner: req.user._id })
+    const recentFiles = await File.find({
+      $or: [
+        { owner: req.user._id },
+        { sharedWith: req.user._id }
+      ]
+    })
       .sort({ lastAccessed: -1 })
       .limit(20)
-      .populate('owner', 'username profileImage'); // Add this line to populate the owner information
+      .populate('owner', 'username profileImage')
+      .populate('sharedBy', 'username'); 
 
     res.json(recentFiles);
   } catch (error) {
