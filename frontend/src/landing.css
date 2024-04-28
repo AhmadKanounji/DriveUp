@@ -255,3 +255,56 @@
     object-fit: contain; /* Ensures the image is resized to fit while maintaining aspect ratio without cropping */
   }
 
+  .pricing-table {
+  width: 100%;
+  margin-top: 10vh; /* This pushes the table down by the height of one viewport */
+  margin-bottom: 50px;
+  overflow-x: auto; /* Enables horizontal scrolling on small screens */
+}
+
+.pricing-table table {
+  width: 98.5%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.pricing-table th,
+.pricing-table td {
+  padding: 15px;
+  border: 1px solid #e1e4e8; /* Light grey border */
+}
+
+.pricing-table th {
+  background-color: #f9f9f9; /* Light background for the header */
+  font-weight: bold;
+}
+
+.pricing-table td {
+  background-color: #ffffff; /* White background for table cells */
+}
+
+.pricing-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Zebra striping for rows */
+}
+
+/* Checkmark style */
+.pricing-table td:empty:before {
+  content: "—"; /* Dash for empty cells */
+}
+
+.pricing-table td:not(:empty):before {
+  content: "✔"; /* Checkmark before each cell with content */
+  color: green; /* Checkmark color */
+  margin-right: 5px;
+}
+
+.table-wrapper{
+    margin-left: 15px;
+}
+/* Responsive adjustments can be added as needed */
+@media (max-width: 768px) {
+  .pricing-table th,
+  .pricing-table td {
+    padding: 10px;
+  }
+}

@@ -12,6 +12,7 @@ function Landing() {
         </Link>
         <Link to="/signIn" className="signInButton">Sign In</Link>
       </header>
+      <div className="background-image-container">
     <div className="landing-container"> 
       <h1>Welcome to DriveUp!</h1>
       <h2>Where you can store and access all your files securely and easily.</h2>
@@ -23,6 +24,50 @@ function Landing() {
       <Link to="/signUp" className='signUpButton2'>Sign Up For Free</Link>
       <p>Join us today for the ultimate online storage experience.</p>
 </div>
+</div>
+
+<div className="table-wrapper">
+<div className="pricing-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>For Personal (no cost)</th>
+              <th>Business Standard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Drive Secure cloud storage</td>
+              <td>25 GB per user</td>
+              <td>2 TB per user</td>
+            </tr>
+            <tr>
+              <td>Target audience sharing</td>
+              <td>—</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Shared drives for your team</td>
+              <td>—</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Docs, Sheets, Slides, Forms content creation</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>UpMmail Secure email</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            {/* Add more rows as needed */}
+          </tbody>
+        </table>
+      </div>
+      </div>
+      {/* End of the new pricing table section */}
 <footer className="footer">
         <div className="footer-content">
           <p>DriveUp</p>
@@ -39,6 +84,8 @@ function Landing() {
     </div>
     </div>
   );
+
+  
 }
 
 export default Landing;
