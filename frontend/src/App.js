@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import SignUp from './signUp';
-import SignIn from './signIn';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate,useLocation } from 'react-router-dom';
+import SignUp from './signUptest';
+import SignIn from './signIntest';
 import FileUpload from './FileUpload';
 import Landing from './Landing';
 import ForgotPassword from './forgotPassword';
 import ResetPassword from './resetPassword';
 import RecentFiles from './recentFiles';
+import './App.css'; // Update the path if your CSS file is located elsewhere
 import SearchResults from './SearchResults';
 
 function App() {
@@ -61,24 +62,27 @@ function App() {
   );
 }
 
+
 function AuthButtons({ isAuthenticated, onLogout }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/upload');
-  //   }
-  // }, [isAuthenticated, navigate]);
+  // If the current location is the landing page, don't render anything
+  if (location.pathname === '/' || location.pathname === '/signIn'|| location.pathname === '/signin'|| location.pathname === '/signUp') {
+    return null;
+  }
 
+  // Otherwise, return the sign in or logout button as before
   return (
     <>
       {isAuthenticated ? (
         <button onClick={() => { onLogout(); navigate('/signin'); }}>Logout</button>
       ) : (
-        <button onClick={() => navigate('/signin')}>Sign In</button>
+        <button onClick={() => navigate('/signin')} className="signInButton">Sign In</button>
       )}
     </>
   );
 }
+
 
 export default App;

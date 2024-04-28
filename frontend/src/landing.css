@@ -1,0 +1,310 @@
+
+.landing-container {
+    min-height: 100vh;
+    background-image: url('/DriveUp-Background3.jpeg'); /* Starts with a slash */
+    background-size: cover; /* Updated to cover to ensure the background covers the entire area */
+    background-position: center center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents image from repeating */
+    background-attachment: scroll;
+    margin-left: 20px ;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This will push the button-container to the bottom */
+    padding-bottom: 50px; 
+
+}
+
+@media (max-width: 767px) {
+    body {
+      background-size: contain; /* This will make the entire image fit within the viewable area, without cropping */
+      background-attachment: scroll; /* Allows the image to scroll with the content, useful for smaller screens */
+    }
+    .landing-container {
+        background-size: contain; /* or auto */
+        background-repeat: no-repeat;
+        background-position: center center; /* Keeps the image centered */
+        background-attachment: scroll;
+        background-image: url('/DriveUp-Background2.jpeg');
+
+      }
+  }
+
+@media (max-width: 768px) {
+    body {
+      background-size: 100% auto; /* Scales the width to 100% and height automatically */
+      background-position: center center; /* Keeps the image centered */
+      background-attachment: scroll; /* Scroll or fixed based on your preference */
+    }
+    .landing-container {
+        padding-bottom: 100px; /* Increase padding at the bottom */
+        background-size: contain; /* or auto */
+        background-repeat: no-repeat;
+        background-position: center center; /* Keeps the image centered */
+        background-attachment: scroll;
+        background-image: url('/DriveUp-Background2.jpeg');
+
+      }
+      .footer-content {
+        flex-direction: column;
+      }
+    
+      .social-media-icons a {
+        margin: 5px 0;
+      }
+    }
+
+@media (max-width: 769px) {
+    body {
+      background-size: 100% auto; /* Scales the width to 100% and height automatically */
+      background-position: center center; /* Keeps the image centered */
+      background-attachment: scroll; /* Scroll or fixed based on your preference */
+    }
+    .landing-container {
+        padding-bottom: 100px; /* Increase padding at the bottom */
+        background-size: contain; /* or auto */
+        background-repeat: no-repeat;
+        background-position: center center; /* Keeps the image centered */
+        background-attachment: scroll;
+        background-image: url('/DriveUp-Background2.jpeg');
+
+      }
+    }
+    .button {
+      padding: 8px 16px; /* Adjust button padding */
+    }
+  @media (max-width: 767px) {
+    body.landing-page {
+      background-image: url('/DriveUp-Background2.jpeg'); /* A smaller or different image for small screens */
+      background-size: cover; /* Keeps the image covering the area, but it will be smaller */
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+  }
+  @media (min-width: 1024px) { /* or any breakpoint that signifies fullscreen for you */
+    .button-container {
+      bottom: 40px; /* Increase space from bottom */
+    }
+    .signUpButton2 {
+      margin-bottom: 20px; /* Adjust as needed */
+    }
+  }
+  
+
+  
+  .landing-container h1{
+  text-align:center ;
+  line-height: 40px;
+  font-weight: normal;
+  
+  }
+  .landing-container h2{
+    font-weight: normal;
+    text-align: left;
+    font-size: 36px;
+    line-height: 40px;
+    max-width: 450px;
+
+  }
+  .landing-container h4{
+    font-weight: normal;
+  }
+  .landing-container a {
+    text-decoration: none;
+  }
+  
+  .p1{
+    max-width: 350px;
+    color: #5f6368;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .signInButton2{
+    padding: 10px 20px;
+    background-color: #007bff; /* Default background color */
+    color: white;
+    border: 4px solid #007bff; /* Border color matches the default background color */
+    border-radius: 7px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    max-width: 50px;
+  }
+
+  .signInButton2:hover {
+    background-color: #52b1ec; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+  }
+  .signUpButton2{
+    padding: 10px 20px;
+    background-color: #007bff; /* Default background color */
+    color: white;
+    border: 4px solid #007bff; /* Border color matches the default background color */
+    border-radius: 7px;
+    cursor: pointer;
+    /* Other styles as needed */
+  }
+  .signUpButton2:hover {
+    background-color: #52b1ec; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #f8f8f8; /* Or any color that suits your design */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;   /* Makes the header stay in place during scrolling */
+    top: 0;            /* Aligns the header at the top of the viewport */
+    left: 0;           /* Aligns the header to the left of the viewport */
+    right: 0;          /* Ensures the header extends to the right of the viewport */
+    z-index: 1000;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 50px; /* Set this to the height you want for your logo */
+  }
+  
+  .signInButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+.button-container {
+    display: flex; 
+    flex-direction: column;
+    align-items: left;
+    max-width: fit-content;
+
+  }
+.button-container p{
+    max-width: 150px;
+    color: #5f6368;
+    font-size: 16px;
+    line-height: 28px;
+    justify-content: center; 
+}
+
+.footer {
+    background-color: #f8f8f8; /* Footer background color */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%; /* Adjust as per your layout */
+  }
+  
+  .social-media-icons a {
+    margin: 0 10px;
+  }
+  
+  .social-media-icons img {
+    height: 40px; /* Adjust the size of the icons */
+  }
+  
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+    }
+  
+    .social-media-icons a {
+      margin: 5px 0;
+    }
+  }
+  .footer {
+    background-color: #f8f8f8; /* Footer background color */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%; /* Adjust as per your layout */
+  }
+  
+  .social-media-icons a {
+    margin: 0 10px;
+  }
+  
+  .social-media-icons img {
+    width: 28px;  /* Sets a fixed width for all icons */
+    height: 28px; /* Sets a fixed height for all icons */
+    object-fit: contain; /* Ensures the image is resized to fit while maintaining aspect ratio without cropping */
+  }
+
+  .pricing-table {
+  width: 100%;
+  margin-top: 10vh; /* This pushes the table down by the height of one viewport */
+  margin-bottom: 50px;
+  overflow-x: auto; /* Enables horizontal scrolling on small screens */
+}
+
+.pricing-table table {
+  width: 98.5%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.pricing-table th,
+.pricing-table td {
+  padding: 15px;
+  border: 1px solid #e1e4e8; /* Light grey border */
+}
+
+.pricing-table th {
+  background-color: #f9f9f9; /* Light background for the header */
+  font-weight: bold;
+}
+
+.pricing-table td {
+  background-color: #ffffff; /* White background for table cells */
+}
+
+.pricing-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Zebra striping for rows */
+}
+
+/* Checkmark style */
+.pricing-table td:empty:before {
+  content: "—"; /* Dash for empty cells */
+}
+
+.pricing-table td:not(:empty):before {
+  content: "✔"; /* Checkmark before each cell with content */
+  color: green; /* Checkmark color */
+  margin-right: 5px;
+}
+
+.table-wrapper{
+    margin-left: 15px;
+}
+/* Responsive adjustments can be added as needed */
+@media (max-width: 768px) {
+  .pricing-table th,
+  .pricing-table td {
+    padding: 10px;
+  }
+}
